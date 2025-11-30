@@ -1526,28 +1526,53 @@ body,
     right: 1.5rem;
   }
 
-  /* Mobile tap-to-flip cards */
-  .card-flip,
-  .card-flip-inner,
-  .card-flip-front,
-  .card-flip-back {
-    min-height: auto !important;
+  /* === MOBILE FLIP CARDS === */
+  /* Remove fixed heights for mobile */
+  .card-flip {
+    min-height: auto;
+  }
+
+  /* Disable 3D transforms on mobile - use simple show/hide */
+  .card-flip-inner {
+    position: static;
+    transform: none !important;
+    transform-style: flat;
+    min-height: auto;
   }
 
   .card-flip-front,
   .card-flip-back {
+    position: static;
+    transform: none !important;
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+    min-height: auto;
     padding: 1.5rem;
   }
 
-  /* Tap to flip functionality */
-  .card-flip.card-flipped .card-flip-inner {
-    transform: rotateY(180deg);
+  /* Hide back by default */
+  .card-flip-back {
+    display: none;
   }
 
-  /* Make achievement cards show click text on mobile */
+  /* Show back when flipped, hide front */
+  .card-flip.card-flipped .card-flip-front {
+    display: none;
+  }
+
+  .card-flip.card-flipped .card-flip-back {
+    display: flex;
+    transform: none !important;
+  }
+
+  /* Disable hover flip on mobile */
+  .card-flip:hover .card-flip-inner {
+    transform: none !important;
+  }
+
+  /* Show achievement click text on mobile */
   .achievement-card .achievement-click {
     opacity: 1;
-    margin-top: 0.5rem;
   }
 }
 

@@ -220,7 +220,7 @@ document.addEventListener("keydown", (e) => {
 // Mobile touch support for flip cards
 (function () {
   // Only on touch devices
-  if ("ontouchstart" in window) {
+  if ("ontouchstart" in window || window.innerWidth <= 768) {
     const flipCards = document.querySelectorAll(".card-flip");
 
     flipCards.forEach((card) => {
@@ -229,6 +229,9 @@ document.addEventListener("keydown", (e) => {
         if (e.target.tagName === "A" || e.target.closest("a")) {
           return;
         }
+
+        // Prevent event from bubbling
+        e.stopPropagation();
 
         // Toggle flipped state
         this.classList.toggle("card-flipped");
