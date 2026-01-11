@@ -1624,26 +1624,36 @@ body,
   }
 }
 
-/* Ensure all cards have equal visual weight */
+/* Final Fixed Grid Logic */
 #work .cards {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: 1fr; /* Mobile default */
+  grid-template-columns: 1fr; /* Default Mobile */
+  width: 100%;
 }
 
+/* Tablet: 2x2 Grid */
 @media (min-width: 640px) {
   #work .cards {
-    grid-template-columns: repeat(2, 1fr); /* 2x2 grid on tablets */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* Desktop: Balanced 4-column row */
 @media (min-width: 1024px) {
   #work .cards {
-    grid-template-columns: repeat(4, 1fr); /* 4-column row on desktop */
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Reset any height/positioning issues from mobile polish */
+  .card-flip {
+    min-height: 400px;
+    position: relative;
   }
 }
 
 .mini-badge {
   font-size: 2rem;
   margin-bottom: 1rem;
+  display: block;
 }
