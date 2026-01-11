@@ -11,8 +11,16 @@ document.getElementById("year").textContent = new Date().getFullYear();
   toggle.addEventListener("click", () => {
     nav.classList.toggle("active");
     const isOpen = nav.classList.contains("active");
-    toggle.textContent = isOpen ? "✕" : "☰";
+
+    // Change the icon with a cleaner look
+    toggle.innerHTML = isOpen ? "&times;" : "&#9776;";
+
+    // Accessibility Update
     toggle.setAttribute("aria-expanded", isOpen);
+
+    // Lock body scroll so the user doesn't scroll the background
+    // while the menu is open (Great for Mobile UX!)
+    document.body.style.overflow = isOpen ? "hidden" : "";
   });
 
   // Close menu when clicking nav links

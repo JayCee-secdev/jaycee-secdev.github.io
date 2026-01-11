@@ -1442,8 +1442,9 @@ body,
   }
 
   /* Mobile navigation */
+
   .nav {
-    display: none;
+    display: flex;
     position: absolute;
     top: 100%;
     left: 0;
@@ -1452,13 +1453,20 @@ body,
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     flex-direction: column;
-    gap: 0;
     padding: 1rem 0;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
   }
 
   .nav.active {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 
   .nav a {
@@ -1501,6 +1509,7 @@ body,
   /* Mobile sections */
   .section {
     padding: 3rem 0;
+    scroll-margin-top: 70px;
   }
 
   .section h2 {
@@ -1527,46 +1536,67 @@ body,
   }
 
   /* === MOBILE FLIP CARDS === */
-  /* Remove fixed heights for mobile */
   .card-flip {
-    min-height: auto;
+    min-height: 380px;
+    position: relative;
+    /* Reset desktop hover for mobile tap */
+    perspective: none;
   }
 
-  /* Disable 3D transforms on mobile - use simple show/hide */
+  /* Prevent desktop hover flip from firing on mobile */
+  .card-flip:hover .card-flip-inner {
+    transform: none;
+  }
+
   .card-flip-inner {
-    position: static;
-    transform: none !important;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    /* Standardizes behavior for the JS toggle */
     transform-style: flat;
-    min-height: auto;
   }
 
   .card-flip-front,
   .card-flip-back {
-    position: static;
-    transform: none !important;
-    backface-visibility: visible;
-    -webkit-backface-visibility: visible;
-    min-height: auto;
+    /* Absolute stacking only happens on mobile now */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
     padding: 1.5rem;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    backface-visibility: hidden;
+    /* Reset desktop rotation so they sit flat for the fade effect */
+    transform: none;
   }
 
-  /* Hide back by default */
   .card-flip-back {
-    display: none;
+    display: flex !important;
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
   }
 
-  /* Show back when flipped, hide front */
+  /* Mobile Tap States */
   .card-flip.card-flipped .card-flip-front {
-    display: none;
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
   }
 
   .card-flip.card-flipped .card-flip-back {
-    display: flex;
-    transform: none !important;
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    /* Ensure it's not still rotated 180deg from desktop CSS */
+    transform: rotateY(0deg);
   }
 
   /* Disable hover flip on mobile */
-  .card-flip:hover .card-flip-inner {
+  .card-flip:hover {
     transform: none !important;
   }
 
@@ -1592,4 +1622,28 @@ body,
     background-color: rgba(255, 255, 255, 0.98);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
+}
+
+/* Ensure all cards have equal visual weight */
+#work .cards {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr; /* Mobile default */
+}
+
+@media (min-width: 640px) {
+  #work .cards {
+    grid-template-columns: repeat(2, 1fr); /* 2x2 grid on tablets */
+  }
+}
+
+@media (min-width: 1024px) {
+  #work .cards {
+    grid-template-columns: repeat(4, 1fr); /* 4-column row on desktop */
+  }
+}
+
+.mini-badge {
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
